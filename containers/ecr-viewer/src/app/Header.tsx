@@ -14,7 +14,7 @@ const Header: React.FC = () => (
         <div className="usa-logo">
           <h1>
             <a href="/" title="<Project title>">
-              DIBBs eCR Viewer
+              DIBBs eCR Viewer - TEST
             </a>
           </h1>
         </div>
