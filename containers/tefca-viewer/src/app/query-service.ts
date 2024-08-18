@@ -9,6 +9,7 @@ import {
   Medication,
   MedicationAdministration,
   MedicationRequest,
+  Immunization,
   Bundle,
 } from "fhir/r4";
 
@@ -30,6 +31,7 @@ export type QueryResponse = {
   Medication?: Medication[];
   MedicationAdministration?: MedicationAdministration[];
   MedicationRequest?: MedicationRequest[];
+  Immunization?: Immunization[];
 };
 
 export type APIQueryResponse = Bundle;
@@ -53,6 +55,7 @@ const UseCaseToStructMap: {
   gonorrhea: dq.GONORRHEA_QUERY,
   chlamydia: dq.CHLAMYDIA_QUERY,
   cancer: dq.CANCER_QUERY,
+  immunization: dq.IMMUNIZATION_QUERY,
 };
 
 // Expected responses from the FHIR server
@@ -155,11 +158,10 @@ export async function UseCaseQuery(
   queryResponse: QueryResponse = {},
 ): Promise<QueryResponse> {
   const fhirClient = new FHIRClient(request.fhir_server);
-
   if (!queryResponse.Patient || queryResponse.Patient.length === 0) {
     await patientQuery(request, fhirClient, queryResponse);
   }
-
+  
   if (!queryResponse.Patient || queryResponse.Patient.length !== 1) {
     return queryResponse;
   }
@@ -185,15 +187,15 @@ async function generalizedQuery(
   const querySpec = UseCaseToStructMap[useCase];
   const builtQuery = new CustomQuery(querySpec, patientId);
   let response: fetch.Response | fetch.Response[];
-
   // Special cases for plain SDH or newborn screening, which just use one query
   if (useCase === "social-determinants") {
     response = await fhirClient.get(builtQuery.getQuery("social"));
   } else if (useCase === "newborn-screening") {
     response = await fhirClient.get(builtQuery.getQuery("observation"));
+  } else if (useCase == "immunization") {
+	response = await fhirClient.get(builtQuery.getQuery("immunization"));
   } else {
-    const queryRequests: string[] = builtQuery.getAllQueries();
-    response = await fhirClient.getBatch(queryRequests);
+    response = await fhirClient.getBatch(builtQuery.getAllQueries());
   }
   queryResponse = await parseFhirSearch(response, queryResponse);
   if (!querySpec.hasSecondEncounterQuery) {

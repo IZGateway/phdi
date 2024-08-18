@@ -14,6 +14,14 @@ export const SOCIAL_DETERMINANTS_QUERY: QueryStruct = {
   hasSecondEncounterQuery: false,
 };
 
+export const IMMUNIZATION_QUERY: QueryStruct = {
+  labCodes: [],
+  snomedCodes: [],
+  rxnormCodes: [],
+  classTypeCodes: [],
+  hasSecondEncounterQuery: false,
+};
+
 export const CANCER_QUERY: QueryStruct = {
   labCodes: [],
   snomedCodes: ["92814006"],

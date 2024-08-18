@@ -8,6 +8,7 @@ export const UseCases = [
   "gonorrhea",
   "chlamydia",
   "cancer",
+  "immunization",
 ] as const;
 export type USE_CASES = (typeof UseCases)[number];
 
@@ -22,6 +23,7 @@ export const modalOptions: Record<USE_CASES, string> = {
   cancer: "Cancer case investigation",
   "newborn-screening": "Newborn screening follow-up",
   "social-determinants": "Gather social determinants of health for a patient",
+  "immunization": "Request Immunizations from IIS",
 };
 
 /**
@@ -35,6 +37,7 @@ export const FhirServers = [
   "Public HAPI: eHealthExchange",
   "OpenEpic: eHealthExchange",
   "CernerHelios: eHealthExchange",
+  "LocalHost: Local",
 ] as const;
 export type FHIR_SERVERS = (typeof FhirServers)[number];
 
@@ -58,7 +61,8 @@ export type PatientType =
   | "newborn-screening-referral"
   | "newborn-screening-pass"
   | "social-determinants"
-  | "sti-syphilis-positive";
+  | "sti-syphilis-positive"
+  | "immunization";
 
 /*
 Demo patient data used to populate the form fields with each value being a type of DemoDataFields
@@ -136,6 +140,15 @@ export const demoData: Record<PatientType, DemoDataFields> = {
     FhirServer: "HELIOS Meld: Direct",
     UseCase: "syphilis",
   },
+  "immunization": {
+    FirstName: "ChristosAIRA",
+    LastName: "FagenAIRA",
+    DOB: "2004-03-15",
+    MRN: "100000018",
+    Phone: "999-457-0018",
+    FhirServer: "LocalHost: Local",
+    UseCase: "immunization",
+  },
 };
 
 /*Labels and values for the query options dropdown on the query page*/
@@ -149,6 +162,7 @@ export const demoQueryOptions = [
     label: "Gather social determinants of health",
   },
   { value: "syphilis", label: "Syphilis case investigation" },
+  { value: "immunization", label: "Immunizations" },
 ];
 
 type Option = {
@@ -190,6 +204,12 @@ export const patientOptions: Record<string, Option[]> = {
       value: "social-determinants",
       label: "A patient with housing insecurity",
     },
+  ],
+  "immunization": [
+	{
+	  value: "immunization",
+	  label: "A patient with immunizations",
+	}
   ],
   syphilis: [
     {

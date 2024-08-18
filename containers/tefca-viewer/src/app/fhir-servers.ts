@@ -26,6 +26,10 @@ export const fhirServers: Record<FHIR_SERVERS, FHIR_SERVER_CONFIG> = {
   "Public HAPI: eHealthExchange": configureEHX("PublicHAPI"),
   "OpenEpic: eHealthExchange": configureEHX("OpenEpic"),
   "CernerHelios: eHealthExchange": configureEHX("CernerHelios"),
+  "LocalHost: Local": {
+    hostname: "http://localhost:9082/fhir/dev/",
+    init: {} as RequestInit,
+  }, 
 };
 
 /**
@@ -73,7 +77,8 @@ class FHIRClient {
   }
 
   async get(path: string): Promise<Response> {
-    return fetch(this.hostname + path, this.init);
+	let query = (this.hostname + path).replaceAll('//', '/').replaceAll(':/','://');
+    return fetch(query, this.init);
   }
 
   async getBatch(paths: Array<string>): Promise<Array<Response>> {

@@ -19,6 +19,7 @@ export class CustomQuery {
   diagnosticReportQuery: string = "";
   conditionQuery: string = "";
   medicationRequestQuery: string = "";
+  immunizationQuery: string = "";
   socialHistoryQuery: string = "";
   encounterQuery: string = "";
   encounterClassTypeQuery: string = "";
@@ -73,6 +74,8 @@ export class CustomQuery {
       snomedFilter !== ""
         ? `/Condition?subject=${patientId}&code=${snomedFilter}`
         : "";
+    this.immunizationQuery =
+      `/Immunization?patient=${patientId}`;
     this.medicationRequestQuery =
       rxnormFilter !== ""
         ? `/MedicationRequest?subject=${patientId}&code=${rxnormFilter}&_include=MedicationRequest:medication&_include=MedicationRequest:medication.administration`
@@ -98,6 +101,7 @@ export class CustomQuery {
       this.diagnosticReportQuery,
       this.conditionQuery,
       this.medicationRequestQuery,
+      this.immunizationQuery,
       this.socialHistoryQuery,
       this.encounterQuery,
       this.encounterClassTypeQuery,
@@ -122,6 +126,8 @@ export class CustomQuery {
         return this.conditionQuery;
       case "medicationRequest":
         return this.medicationRequestQuery;
+      case "immunization":
+		return this.immunizationQuery;
       case "social":
         return this.socialHistoryQuery;
       case "encounter":

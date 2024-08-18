@@ -13,6 +13,7 @@ import {
 import { UseCaseQueryResponse } from "@/app/query-service";
 import ConditionsTable from "./ConditionsTable";
 import MedicationRequestTable from "./MedicationRequestTable";
+import ImmunizationTable from "./ImmunizationTable";
 
 type AccordionContainerProps = {
   queryResponse: UseCaseQueryResponse;
@@ -44,7 +45,8 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
   const medicationRequests = queryResponse.MedicationRequest
     ? queryResponse.MedicationRequest
     : null;
-
+  const immunizations = queryResponse.Immunization ? queryResponse.Immunization : null;
+  
   if (patient) {
     accordionItems.push({
       title: "Patient Info",
@@ -164,7 +166,25 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
       headingLevel: "h3",
     });
   }
-
+  if (immunizations) {
+    accordionItems.push({
+      title: "Immunizations",
+      content: (
+        <>
+          <AccordianSection>
+            <AccordianH4>
+              <span id="immunizations">Immunizations</span>
+            </AccordianH4>
+            <AccordianDiv>
+              <ImmunizationTable immunizations={immunizations} />
+            </AccordianDiv>
+          </AccordianSection>
+        </>
+      ),
+      expanded: true,
+      headingLevel: "h3",
+    });
+  }
   //Add id, adjust title
   accordionItems.forEach((item, index) => {
     let formattedTitle = formatString(item["title"]);
