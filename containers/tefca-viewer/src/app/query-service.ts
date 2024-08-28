@@ -131,11 +131,8 @@ async function patientQuery(
     }
   }
   
-  console.log({ query: query });
-
   const response = await fhirClient.get(query);
 
-  console.log({ response: response });
   // Check for errors
   if (response.status !== 200) {
     console.error(
@@ -196,7 +193,8 @@ async function generalizedQuery(
   } else if (useCase === "newborn-screening") {
     response = await fhirClient.get(builtQuery.getQuery("observation"));
   } else if (useCase == "immunization") {
-	response = await fhirClient.get(builtQuery.getQuery("immunization"));
+	var theQuery = builtQuery.getQuery("immunization");
+	response = await fhirClient.get(theQuery);
   } else {
     response = await fhirClient.getBatch(builtQuery.getAllQueries());
   }
