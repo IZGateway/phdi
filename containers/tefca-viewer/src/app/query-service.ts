@@ -130,9 +130,12 @@ async function patientQuery(
       query += `phone=${phonePossibilities.join(",")}&`;
     }
   }
+  
+  console.log({ query: query });
 
   const response = await fhirClient.get(query);
 
+  console.log({ response: response });
   // Check for errors
   if (response.status !== 200) {
     console.error(

@@ -62,7 +62,8 @@ export type PatientType =
   | "newborn-screening-pass"
   | "social-determinants"
   | "sti-syphilis-positive"
-  | "immunization";
+  | "immunization"
+  | "immunization-multiple";
 
 /*
 Demo patient data used to populate the form fields with each value being a type of DemoDataFields
@@ -149,6 +150,15 @@ export const demoData: Record<PatientType, DemoDataFields> = {
     FhirServer: "LocalHost: Local",
     UseCase: "immunization",
   },
+  "immunization-multiple": {
+    LastName: "NavarroAIRA",
+    FirstName: "ZadorAIRA",
+    DOB: "2001-08-10",
+    MRN: "",
+    Phone: "",
+    FhirServer: "LocalHost: Local",
+    UseCase: "immunization",
+  }
 };
 
 /*Labels and values for the query options dropdown on the query page*/
@@ -209,7 +219,12 @@ export const patientOptions: Record<string, Option[]> = {
 	{
 	  value: "immunization",
 	  label: "A patient with immunizations",
-	}
+	},
+	{
+	  value: "immunization-multiple",
+	  label: "A query matching multiple patients",
+	},
+	
   ],
   syphilis: [
     {
